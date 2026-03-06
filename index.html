@@ -1,35 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Aaron Altergott</title>
+
+<title>Aaron Altergott | Cloud Portfolio</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/css/winbox.min.css">
 <script src="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.js"></script>
 
 <style>
+
 body{
-  margin:0;
-  height:100vh;
-  background:#0f172a;
-  font-family:Arial;
-  color:white;
+margin:0;
+height:100vh;
+font-family:system-ui;
+background:linear-gradient(120deg,#0f172a,#1e293b);
+color:white;
+overflow:hidden;
 }
+
+/* Desktop */
 
 .desktop{
-  padding:20px;
+display:flex;
+flex-direction:column;
+gap:25px;
+padding:40px;
+width:120px;
 }
 
+/* Icons */
+
 .icon{
-  width:80px;
-  text-align:center;
-  cursor:pointer;
+text-align:center;
+cursor:pointer;
 }
 
 .icon img{
-  width:64px;
+width:60px;
+}
+
+.icon span{
+display:block;
+margin-top:5px;
+font-size:14px;
+}
+
+/* Dock */
+
+.dock{
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:20px;
+padding:15px 25px;
+border-radius:20px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+}
+
+.dock img{
+width:40px;
+cursor:pointer;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -38,23 +75,94 @@ body{
 
 <div class="icon" ondblclick="openAbout()">
 <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-<div>About</div>
+<span>About</span>
+</div>
+
+<div class="icon" ondblclick="openCerts()">
+<img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
+<span>Certs</span>
+</div>
+
+<div class="icon" ondblclick="openProjects()">
+<img src="https://cdn-icons-png.flaticon.com/512/906/906324.png">
+<span>Projects</span>
+</div>
+
+<div class="icon" ondblclick="openContact()">
+<img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
+<span>Contact</span>
 </div>
 
 </div>
+
+
+<div class="dock">
+
+<img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" onclick="openGithub()">
+
+<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" onclick="openLinkedin()">
+
+</div>
+
 
 <script>
 
 function openAbout(){
- new WinBox({
-   title:"About Me",
-   html:"<h2>Aaron Altergott</h2><p>Aspiring Cloud Engineer currently pursuing AWS Cloud Practitioner certification.</p>",
-   width:"400px",
-   height:"300px"
- });
+new WinBox({
+title:"About Me",
+width:"500px",
+height:"350px",
+html:`<h2>Aaron Altergott</h2>
+<p>Aspiring Cloud Engineer currently studying for the AWS Cloud Practitioner certification.</p>
+<p>Background in IT support, systems troubleshooting, and technical operations.</p>`
+});
+}
+
+function openCerts(){
+new WinBox({
+title:"Certifications",
+width:"500px",
+height:"350px",
+html:`<h2>Certifications</h2>
+<ul>
+<li>AWS Cloud Practitioner (In Progress)</li>
+<li>AWS Solutions Architect Associate (Planned)</li>
+<li>CompTIA Security+ (Future)</li>
+</ul>`
+});
+}
+
+function openProjects(){
+new WinBox({
+title:"Projects",
+width:"600px",
+height:"400px",
+html:`<h2>Cloud Projects</h2>
+<p>Projects will appear here as I build them.</p>`
+});
+}
+
+function openContact(){
+new WinBox({
+title:"Contact",
+width:"400px",
+height:"300px",
+html:`<h2>Contact</h2>
+<p>Email: your@email.com</p>
+<p>LinkedIn: coming soon</p>`
+});
+}
+
+function openGithub(){
+window.open("https://github.com","_blank")
+}
+
+function openLinkedin(){
+window.open("https://linkedin.com","_blank")
 }
 
 </script>
 
 </body>
+
 </html>
