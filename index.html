@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Aaron Altergott | Cloud Portfolio</title>
+<title>Aaron Altergott</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/css/winbox.min.css">
 <script src="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.js"></script>
@@ -12,9 +12,9 @@
 body{
 margin:0;
 height:100vh;
-font-family:system-ui;
-background:linear-gradient(120deg,#0f172a,#1e293b);
-color:white;
+font-family:Tahoma;
+background:url("https://i.imgur.com/Zk6TR5k.jpg") no-repeat center center fixed;
+background-size:cover;
 overflow:hidden;
 }
 
@@ -23,8 +23,8 @@ overflow:hidden;
 .desktop{
 display:flex;
 flex-direction:column;
-gap:25px;
-padding:40px;
+gap:30px;
+padding:30px;
 width:120px;
 }
 
@@ -32,37 +32,56 @@ width:120px;
 
 .icon{
 text-align:center;
-cursor:pointer;
+cursor:default;
+color:white;
+width:90px;
+user-select:none;
 }
 
 .icon img{
-width:60px;
+width:48px;
+display:block;
+margin:auto;
 }
 
 .icon span{
 display:block;
-margin-top:5px;
+margin-top:6px;
+font-size:13px;
+text-shadow:1px 1px 2px black;
+}
+
+/* Taskbar */
+
+.taskbar{
+position:absolute;
+bottom:0;
+width:100%;
+height:40px;
+background:linear-gradient(#245edb,#1941a5);
+display:flex;
+align-items:center;
+padding-left:10px;
+color:white;
 font-size:14px;
 }
 
-/* Dock */
-
-.dock{
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-display:flex;
-gap:20px;
-padding:15px 25px;
-border-radius:20px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
+.start{
+background:linear-gradient(#3c8d0d,#2e6d09);
+padding:6px 20px;
+border-radius:4px;
+font-weight:bold;
+margin-right:20px;
 }
 
-.dock img{
-width:40px;
-cursor:pointer;
+.windowContent{
+padding:20px;
+font-family:Tahoma;
+}
+
+.resume{
+font-family:Courier New;
+white-space:pre-wrap;
 }
 
 </style>
@@ -74,18 +93,18 @@ cursor:pointer;
 <div class="desktop">
 
 <div class="icon" ondblclick="openAbout()">
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-<span>About</span>
-</div>
-
-<div class="icon" ondblclick="openCerts()">
-<img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">
-<span>Certs</span>
+<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
+<span>About Me</span>
 </div>
 
 <div class="icon" ondblclick="openProjects()">
-<img src="https://cdn-icons-png.flaticon.com/512/906/906324.png">
+<img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
 <span>Projects</span>
+</div>
+
+<div class="icon" ondblclick="openResume()">
+<img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+<span>Resume</span>
 </div>
 
 <div class="icon" ondblclick="openContact()">
@@ -93,15 +112,16 @@ cursor:pointer;
 <span>Contact</span>
 </div>
 
+<div class="icon" ondblclick="openLinkedIn()">
+<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
+<span>LinkedIn</span>
 </div>
 
+</div>
 
-<div class="dock">
-
-<img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" onclick="openGithub()">
-
-<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" onclick="openLinkedin()">
-
+<div class="taskbar">
+<div class="start">start</div>
+AaronOS
 </div>
 
 
@@ -109,37 +129,137 @@ cursor:pointer;
 
 function openAbout(){
 new WinBox({
-title:"About Me",
+title:"About Aaron",
 width:"500px",
 height:"350px",
-html:`<h2>Aaron Altergott</h2>
-<p>Aspiring Cloud Engineer currently studying for the AWS Cloud Practitioner certification.</p>
-<p>Background in IT support, systems troubleshooting, and technical operations.</p>`
-});
-}
+html:`
+<div class="windowContent">
+<h2>Aaron Altergott</h2>
+<p>Aspiring Cloud Engineer transitioning into cloud infrastructure and distributed systems.</p>
 
-function openCerts(){
-new WinBox({
-title:"Certifications",
-width:"500px",
-height:"350px",
-html:`<h2>Certifications</h2>
+<p>Currently studying for:</p>
+
 <ul>
-<li>AWS Cloud Practitioner (In Progress)</li>
-<li>AWS Solutions Architect Associate (Planned)</li>
-<li>CompTIA Security+ (Future)</li>
-</ul>`
-});
+<li>AWS Certified Cloud Practitioner (CLF-C02)</li>
+<li>AWS Certified Solutions Architect – Associate</li>
+</ul>
+
+<p>Background in operations, finance reconciliation, and IT troubleshooting.</p>
+
+<p>Based in Redlands, California.</p>
+</div>
+`
+})
 }
 
 function openProjects(){
 new WinBox({
 title:"Projects",
-width:"600px",
-height:"400px",
-html:`<h2>Cloud Projects</h2>
-<p>Projects will appear here as I build them.</p>`
-});
+width:"550px",
+height:"380px",
+html:`
+<div class="windowContent">
+
+<h2>Cloud Projects (In Progress)</h2>
+
+<h3>AWS Certification Track</h3>
+
+<ul>
+<li>AWS Certified Cloud Practitioner (CLF-C02) — In Progress</li>
+<li>AWS Certified Solutions Architect Associate — Next Certification</li>
+</ul>
+
+<h3>Planned Cloud Projects</h3>
+
+<ul>
+<li>Static Website hosted with GitHub Pages</li>
+<li>AWS S3 static hosting lab</li>
+<li>Cloud architecture portfolio diagrams</li>
+<li>Infrastructure-as-Code experiments</li>
+</ul>
+
+<p>Projects will be added here as I complete them.</p>
+
+</div>
+`
+})
+}
+
+function openResume(){
+
+new WinBox({
+title:"AaronAltergottResume.txt",
+width:"90%",
+height:"90%",
+html:`
+<div class="windowContent resume">
+
+Aaron Altergott
+adaltergott@gmail.com | (909) 280-1882 | Redlands, California
+linkedin.com/in/aaronaltergott
+
+Experience
+
+CSR – Operations Specialist
+Southwest Self Storage — Nov 2024 – Present
+
+• Manage AP using 2-way matching and AR for 500+ tenants
+• Reduced overdue accounts by 15%
+• Reconcile daily and monthly financial reports
+• Resolve recurring billing discrepancies
+• Analyze revenue trends and occupancy metrics
+
+Intern
+The Advance Group — May 2023 – Jul 2023
+
+• Evaluated organizations for partnership opportunities
+• Developed ten strategic collaboration proposals
+• Assisted NYC council campaign strategy
+• Coordinated events and outreach logistics
+
+Valet Attendant
+Kar Kare Parking Systems — Feb 2021 – Apr 2023
+
+• Managed high-volume transactions
+• Performed EOD reconciliation
+• Delivered high quality customer service
+
+English Instructor
+American Language Institute — Aug 2019 – Mar 2020
+
+• Taught communicative English to 30 international students
+• Organized cultural education events
+
+Education
+
+California State University Long Beach
+B.A. International Studies
+Graduated Dec 2023
+
+Skills
+
+Software
+Excel (PivotTables, XLOOKUP)
+Sitelink ERP / CRM
+IBM SPSS
+Google Workspace
+Microsoft 365
+
+Finance
+Accounts Payable / Receivable
+Financial reporting
+Journal reconciliation
+KPI analysis
+
+Client & Strategy
+Customer relations
+Strategic partnerships
+Market research
+Quantitative analysis
+
+</div>
+`
+})
 }
 
 function openContact(){
@@ -147,22 +267,35 @@ new WinBox({
 title:"Contact",
 width:"400px",
 height:"300px",
-html:`<h2>Contact</h2>
-<p>Email: your@email.com</p>
-<p>LinkedIn: coming soon</p>`
-});
+html:`
+<div class="windowContent">
+<h3>Contact</h3>
+
+Email:
+<br>
+<a href="mailto:adaltergott@gmail.com">adaltergott@gmail.com</a>
+
+<br><br>
+
+Phone:
+<br>
+(909) 280-1882
+
+<br><br>
+
+Location:
+<br>
+Redlands, California
+</div>
+`
+})
 }
 
-function openGithub(){
-window.open("https://github.com","_blank")
-}
-
-function openLinkedin(){
-window.open("https://linkedin.com","_blank")
+function openLinkedIn(){
+window.open("https://www.linkedin.com/in/aaronaltergott","_blank")
 }
 
 </script>
 
 </body>
-
 </html>
