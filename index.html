@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aaron Altergott</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/css/winbox.min.css">
+<script src="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.js"></script>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:#0f172a;
+  font-family:Arial;
+  color:white;
+}
+
+.desktop{
+  padding:20px;
+}
+
+.icon{
+  width:80px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.icon img{
+  width:64px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="desktop">
+
+<div class="icon" ondblclick="openAbout()">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<div>About</div>
+</div>
+
+</div>
+
+<script>
+
+function openAbout(){
+ new WinBox({
+   title:"About Me",
+   html:"<h2>Aaron Altergott</h2><p>Aspiring Cloud Engineer currently pursuing AWS Cloud Practitioner certification.</p>",
+   width:"400px",
+   height:"300px"
+ });
+}
+
+</script>
+
+</body>
+</html>
