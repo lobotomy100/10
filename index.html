@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Aaron Altergott</title>
@@ -23,23 +24,23 @@ overflow:hidden;
 .desktop{
 display:flex;
 flex-direction:column;
-gap:30px;
-padding:30px;
-width:120px;
+gap:35px;
+padding:40px;
+width:140px;
 }
 
-/* Icons */
+/* ICONS */
 
 .icon{
 text-align:center;
 cursor:default;
 color:white;
-width:90px;
+width:120px;
 user-select:none;
 }
 
 .icon img{
-width:48px;
+width:64px;   /* 30% larger */
 display:block;
 margin:auto;
 }
@@ -47,11 +48,11 @@ margin:auto;
 .icon span{
 display:block;
 margin-top:6px;
-font-size:13px;
+font-size:14px;
 text-shadow:1px 1px 2px black;
 }
 
-/* Taskbar */
+/* TASKBAR */
 
 .taskbar{
 position:absolute;
@@ -74,6 +75,8 @@ font-weight:bold;
 margin-right:20px;
 }
 
+/* WINDOW CONTENT */
+
 .windowContent{
 padding:20px;
 font-family:Tahoma;
@@ -92,32 +95,33 @@ white-space:pre-wrap;
 
 <div class="desktop">
 
-<div class="icon" ondblclick="openAbout()">
+<div class="icon" data-action="about">
 <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
 <span>About Me</span>
 </div>
 
-<div class="icon" ondblclick="openProjects()">
+<div class="icon" data-action="projects">
 <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
 <span>Projects</span>
 </div>
 
-<div class="icon" ondblclick="openResume()">
+<div class="icon" data-action="resume">
 <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
 <span>Resume</span>
 </div>
 
-<div class="icon" ondblclick="openContact()">
+<div class="icon" data-action="contact">
 <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
 <span>Contact</span>
 </div>
 
-<div class="icon" ondblclick="openLinkedIn()">
+<div class="icon" data-action="linkedin">
 <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
 <span>LinkedIn</span>
 </div>
 
 </div>
+
 
 <div class="taskbar">
 <div class="start">start</div>
@@ -127,15 +131,39 @@ AaronOS
 
 <script>
 
+/* DOUBLE CLICK SYSTEM */
+
+document.querySelectorAll(".icon").forEach(icon => {
+
+icon.addEventListener("dblclick", function(){
+
+const action = this.dataset.action;
+
+if(action === "about") openAbout();
+if(action === "projects") openProjects();
+if(action === "resume") openResume();
+if(action === "contact") openContact();
+if(action === "linkedin") openLinkedIn();
+
+});
+
+});
+
+
+/* WINDOWS */
+
 function openAbout(){
+
 new WinBox({
 title:"About Aaron",
 width:"500px",
 height:"350px",
 html:`
 <div class="windowContent">
+
 <h2>Aaron Altergott</h2>
-<p>Aspiring Cloud Engineer transitioning into cloud infrastructure and distributed systems.</p>
+
+<p>Aspiring Cloud Engineer transitioning into cloud infrastructure.</p>
 
 <p>Currently studying for:</p>
 
@@ -144,15 +172,17 @@ html:`
 <li>AWS Certified Solutions Architect – Associate</li>
 </ul>
 
-<p>Background in operations, finance reconciliation, and IT troubleshooting.</p>
-
 <p>Based in Redlands, California.</p>
+
 </div>
 `
 })
+
 }
 
+
 function openProjects(){
+
 new WinBox({
 title:"Projects",
 width:"550px",
@@ -166,24 +196,24 @@ html:`
 
 <ul>
 <li>AWS Certified Cloud Practitioner (CLF-C02) — In Progress</li>
-<li>AWS Certified Solutions Architect Associate — Next Certification</li>
+<li>AWS Certified Solutions Architect – Associate — Next</li>
 </ul>
 
-<h3>Planned Cloud Projects</h3>
+<h3>Upcoming Projects</h3>
 
 <ul>
-<li>Static Website hosted with GitHub Pages</li>
-<li>AWS S3 static hosting lab</li>
-<li>Cloud architecture portfolio diagrams</li>
+<li>GitHub Pages static portfolio hosting</li>
+<li>AWS S3 static website hosting</li>
+<li>Cloud architecture diagrams</li>
 <li>Infrastructure-as-Code experiments</li>
 </ul>
-
-<p>Projects will be added here as I complete them.</p>
 
 </div>
 `
 })
+
 }
+
 
 function openResume(){
 
@@ -205,94 +235,92 @@ Southwest Self Storage — Nov 2024 – Present
 
 • Manage AP using 2-way matching and AR for 500+ tenants
 • Reduced overdue accounts by 15%
-• Reconcile daily and monthly financial reports
-• Resolve recurring billing discrepancies
+• Reconcile financial reports and resolve billing discrepancies
 • Analyze revenue trends and occupancy metrics
 
 Intern
 The Advance Group — May 2023 – Jul 2023
 
 • Evaluated organizations for partnership opportunities
-• Developed ten strategic collaboration proposals
+• Developed strategic collaboration proposals
 • Assisted NYC council campaign strategy
-• Coordinated events and outreach logistics
 
 Valet Attendant
 Kar Kare Parking Systems — Feb 2021 – Apr 2023
 
 • Managed high-volume transactions
 • Performed EOD reconciliation
-• Delivered high quality customer service
 
 English Instructor
 American Language Institute — Aug 2019 – Mar 2020
-
-• Taught communicative English to 30 international students
-• Organized cultural education events
 
 Education
 
 California State University Long Beach
 B.A. International Studies
-Graduated Dec 2023
 
 Skills
 
-Software
 Excel (PivotTables, XLOOKUP)
 Sitelink ERP / CRM
 IBM SPSS
 Google Workspace
 Microsoft 365
 
-Finance
 Accounts Payable / Receivable
 Financial reporting
 Journal reconciliation
 KPI analysis
 
-Client & Strategy
 Customer relations
 Strategic partnerships
 Market research
-Quantitative analysis
 
 </div>
 `
 })
+
 }
 
+
 function openContact(){
+
 new WinBox({
 title:"Contact",
 width:"400px",
 height:"300px",
 html:`
 <div class="windowContent">
+
 <h3>Contact</h3>
 
-Email:
+Email
 <br>
 <a href="mailto:adaltergott@gmail.com">adaltergott@gmail.com</a>
 
 <br><br>
 
-Phone:
+Phone
 <br>
 (909) 280-1882
 
 <br><br>
 
-Location:
+Location
 <br>
 Redlands, California
+
 </div>
 `
 })
+
 }
 
+
 function openLinkedIn(){
+
 window.open("https://www.linkedin.com/in/aaronaltergott","_blank")
+
 }
 
 </script>
