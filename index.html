@@ -133,19 +133,23 @@ AaronOS
 
 /* DOUBLE CLICK SYSTEM */
 
-document.querySelectorAll(".icon").forEach(icon => {
+document.addEventListener("DOMContentLoaded", function () {
 
-icon.addEventListener("dblclick", function(){
+  document.querySelectorAll(".icon").forEach(icon => {
 
-const action = this.dataset.action;
+    icon.addEventListener("dblclick", function () {
 
-if(action === "about") openAbout();
-if(action === "projects") openProjects();
-if(action === "resume") openResume();
-if(action === "contact") openContact();
-if(action === "linkedin") openLinkedIn();
+      const action = this.dataset.action;
 
-});
+      if (action === "about") openAbout();
+      if (action === "projects") openProjects();
+      if (action === "resume") openResume();
+      if (action === "contact") openContact();
+      if (action === "linkedin") openLinkedIn();
+
+    });
+
+  });
 
 });
 
