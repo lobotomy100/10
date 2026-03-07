@@ -1,333 +1,565 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Aaron Altergott</title>
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/css/winbox.min.css">
 <script src="https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 
-body{
-margin:0;
-height:100vh;
-font-family:Tahoma;
-background:url("https://i.imgur.com/Zk6TR5k.jpg") no-repeat center center fixed;
-background-size:cover;
-overflow:hidden;
+:root {
+  --taskbar-h: 44px;
+  --blue-light: #4a8cff;
+  --blue-dark: #1941a5;
+  --green-start: #3c8d0d;
+  --green-end: #2e6d09;
+  --win-border: #000080;
 }
 
-/* Desktop */
+* { box-sizing: border-box; }
 
-.desktop{
-display:flex;
-flex-direction:column;
-gap:35px;
-padding:40px;
-width:140px;
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Tahoma, Geneva, sans-serif;
+  background: url("https://i.imgur.com/Zk6TR5k.jpg") no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
 }
 
-/* ICONS */
-
-.icon{
-text-align:center;
-cursor:default;
-color:white;
-width:120px;
-user-select:none;
+/* Subtle scanline overlay for retro feel */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
 }
 
-.icon img{
-width:64px;   /* 30% larger */
-display:block;
-margin:auto;
+/* ── DESKTOP ── */
+.desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 32px 24px;
+  width: 130px;
 }
 
-.icon span{
-display:block;
-margin-top:6px;
-font-size:14px;
-text-shadow:1px 1px 2px black;
+/* ── ICONS ── */
+.icon {
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  width: 96px;
+  user-select: none;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background 0.1s;
 }
 
-/* TASKBAR */
-
-.taskbar{
-position:absolute;
-bottom:0;
-width:100%;
-height:40px;
-background:linear-gradient(#245edb,#1941a5);
-display:flex;
-align-items:center;
-padding-left:10px;
-color:white;
-font-size:14px;
+.icon:hover {
+  background: rgba(255,255,255,0.15);
 }
 
-.start{
-background:linear-gradient(#3c8d0d,#2e6d09);
-padding:6px 20px;
-border-radius:4px;
-font-weight:bold;
-margin-right:20px;
+.icon.selected {
+  background: rgba(0, 80, 200, 0.5);
+  outline: 1px dotted rgba(255,255,255,0.8);
 }
 
-/* WINDOW CONTENT */
-
-.windowContent{
-padding:20px;
-font-family:Tahoma;
+.icon img,
+.icon span {
+  pointer-events: none; /* FIX: prevents child elements absorbing clicks */
 }
 
-.resume{
-font-family:Courier New;
-white-space:pre-wrap;
+.icon img {
+  width: 48px;
+  display: block;
+  margin: auto;
+  filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.6));
+}
+
+.icon span {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  text-shadow: 1px 1px 2px black, 0 0 4px black;
+  line-height: 1.3;
+}
+
+/* ── TASKBAR ── */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--taskbar-h);
+  background: linear-gradient(to bottom, #245edb, #1941a5);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  gap: 8px;
+  border-top: 1px solid #5580e0;
+  z-index: 100;
+}
+
+.start-btn {
+  background: linear-gradient(to bottom, #4db810, #2e6d09);
+  padding: 5px 16px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 13px;
+  color: white;
+  border: 1px solid #1a4a05;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.4);
+  transition: filter 0.1s;
+}
+.start-btn:hover { filter: brightness(1.1); }
+.start-btn:active { filter: brightness(0.9); }
+
+.taskbar-logo {
+  font-size: 13px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  letter-spacing: 0.5px;
+}
+
+.taskbar-clock {
+  margin-left: auto;
+  color: white;
+  font-size: 12px;
+  background: rgba(0,0,50,0.3);
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 2px;
+  min-width: 58px;
+  text-align: center;
+  font-family: Tahoma;
+}
+
+/* ── WINDOW CONTENT ── */
+.windowContent {
+  padding: 18px 22px;
+  font-family: Tahoma, sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #111;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.windowContent h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #000080;
+  border-bottom: 2px solid #000080;
+  padding-bottom: 6px;
+}
+
+.windowContent h3 {
+  margin: 14px 0 6px;
+  font-size: 13px;
+  color: #000060;
+}
+
+.windowContent ul {
+  margin: 4px 0 10px;
+  padding-left: 20px;
+}
+
+.windowContent li {
+  margin-bottom: 4px;
+}
+
+.windowContent a {
+  color: #0000cc;
+}
+
+.windowContent p {
+  margin: 0 0 10px;
+}
+
+/* Resume-specific */
+.resume {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  line-height: 1.65;
+  color: #111;
+}
+
+/* About section with avatar area */
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.about-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #245edb, #000080);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  border: 2px solid #000080;
+}
+
+.about-title h2 {
+  border: none;
+  padding: 0;
+  margin: 0 0 2px;
+}
+
+.about-title p {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+/* Cert badge */
+.cert-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff9900, #e07b00);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+  text-shadow: none;
+}
+
+/* Project card */
+.project-card {
+  background: #f0f4ff;
+  border: 1px solid #c0c8e0;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.project-card h4 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #000080;
+}
+
+.project-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #444;
+}
+
+/* Contact rows */
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+}
+
+.contact-row:last-child { border-bottom: none; }
+
+.contact-label {
+  font-weight: bold;
+  color: #000080;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+/* WinBox override for classic XP look */
+.winbox {
+  border: 2px solid var(--win-border) !important;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.5) !important;
+}
+
+.winbox .wb-title {
+  font-family: Tahoma !important;
+  font-size: 12px !important;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="desktop">
 
-<div class="icon" data-action="about">
-<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
-<span>About Me</span>
-</div>
+  <div class="icon" data-action="about">
+    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png">
+    <span>About Me</span>
+  </div>
 
-<div class="icon" data-action="projects">
-<img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
-<span>Projects</span>
-</div>
+  <div class="icon" data-action="projects">
+    <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
+    <span>Projects</span>
+  </div>
 
-<div class="icon" data-action="resume">
-<img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
-<span>Resume</span>
-</div>
+  <div class="icon" data-action="resume">
+    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+    <span>Resume</span>
+  </div>
 
-<div class="icon" data-action="contact">
-<img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
-<span>Contact</span>
-</div>
+  <div class="icon" data-action="contact">
+    <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
+    <span>Contact</span>
+  </div>
 
-<div class="icon" data-action="linkedin">
-<img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
-<span>LinkedIn</span>
-</div>
+  <div class="icon" data-action="linkedin">
+    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
+    <span>LinkedIn</span>
+  </div>
 
 </div>
-
 
 <div class="taskbar">
-<div class="start">start</div>
-AaronOS
+  <button class="start-btn">▶ start</button>
+  <span class="taskbar-logo">AaronOS</span>
+  <div class="taskbar-clock" id="clock">12:00</div>
 </div>
-
 
 <script>
 
-/* DOUBLE CLICK SYSTEM */
+/* ── CLOCK ── */
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  document.getElementById('clock').textContent =
+    h + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+}
+updateClock();
+setInterval(updateClock, 10000);
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  document.querySelectorAll(".icon").forEach(icon => {
-
-    icon.addEventListener("dblclick", function () {
-
-      const action = this.dataset.action;
-
-      if (action === "about") openAbout();
-      if (action === "projects") openProjects();
-      if (action === "resume") openResume();
-      if (action === "contact") openContact();
-      if (action === "linkedin") openLinkedIn();
-
-    });
-
+/* ── ICON SELECTION (single click) ── */
+document.querySelectorAll('.icon').forEach(icon => {
+  icon.addEventListener('click', function(e) {
+    document.querySelectorAll('.icon').forEach(i => i.classList.remove('selected'));
+    this.classList.add('selected');
   });
-
 });
 
+/* ── DOUBLE CLICK TO OPEN ── */
+document.querySelectorAll('.icon').forEach(icon => {
+  icon.addEventListener('dblclick', function () {
+    const action = this.dataset.action;
+    if (action === 'about')    openAbout();
+    if (action === 'projects') openProjects();
+    if (action === 'resume')   openResume();
+    if (action === 'contact')  openContact();
+    if (action === 'linkedin') openLinkedIn();
+  });
+});
 
-/* WINDOWS */
+/* Deselect icons when clicking desktop */
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.icon') && !e.target.closest('.winbox') && !e.target.closest('.taskbar')) {
+    document.querySelectorAll('.icon').forEach(i => i.classList.remove('selected'));
+  }
+});
 
-function openAbout(){
+/* ── WINDOWS ── */
 
-new WinBox({
-title:"About Aaron",
-width:"500px",
-height:"350px",
-html:`
-<div class="windowContent">
+function openAbout() {
+  new WinBox({
+    title: 'About Aaron',
+    width: '480px',
+    height: '340px',
+    x: 'center',
+    y: 'center',
+    html: `
+    <div class="windowContent">
+      <div class="about-header">
+        <div class="about-avatar">👤</div>
+        <div class="about-title">
+          <h2>Aaron Altergott</h2>
+          <p>Aspiring Cloud Engineer</p>
+        </div>
+      </div>
 
-<h2>Aaron Altergott</h2>
+      <p>Transitioning into cloud infrastructure with a background in operations, finance, and customer relations.</p>
 
-<p>Aspiring Cloud Engineer transitioning into cloud infrastructure.</p>
+      <h3>Currently Studying</h3>
+      <ul>
+        <li>AWS Certified Cloud Practitioner (CLF-C02) <span class="cert-badge">In Progress</span></li>
+        <li>AWS Solutions Architect – Associate <span style="font-size:11px;color:#888;">— Next</span></li>
+      </ul>
 
-<p>Currently studying for:</p>
+      <h3>Background</h3>
+      <p>B.A. International Studies — CSULB. Operations specialist with experience in AP/AR, ERP systems, and data analysis.</p>
 
-<ul>
-<li>AWS Certified Cloud Practitioner (CLF-C02)</li>
-<li>AWS Certified Solutions Architect – Associate</li>
-</ul>
-
-<p>Based in Redlands, California.</p>
-
-</div>
-`
-})
-
+      <p>📍 Redlands, California</p>
+    </div>
+    `
+  });
 }
 
+function openProjects() {
+  new WinBox({
+    title: 'Projects',
+    width: '540px',
+    height: '400px',
+    x: 'center',
+    y: 'center',
+    html: `
+    <div class="windowContent">
+      <h2>Cloud Projects</h2>
 
-function openProjects(){
+      <h3>🎓 Certification Track</h3>
+      <div class="project-card">
+        <h4>AWS Certified Cloud Practitioner (CLF-C02)</h4>
+        <p>Foundational AWS certification covering core services, billing, security, and architecture concepts. <span class="cert-badge">In Progress</span></p>
+      </div>
+      <div class="project-card">
+        <h4>AWS Solutions Architect – Associate</h4>
+        <p>Designing scalable, resilient cloud architecture on AWS. Planned after CCP completion.</p>
+      </div>
 
-new WinBox({
-title:"Projects",
-width:"550px",
-height:"380px",
-html:`
-<div class="windowContent">
-
-<h2>Cloud Projects (In Progress)</h2>
-
-<h3>AWS Certification Track</h3>
-
-<ul>
-<li>AWS Certified Cloud Practitioner (CLF-C02) — In Progress</li>
-<li>AWS Certified Solutions Architect – Associate — Next</li>
-</ul>
-
-<h3>Upcoming Projects</h3>
-
-<ul>
-<li>GitHub Pages static portfolio hosting</li>
-<li>AWS S3 static website hosting</li>
-<li>Cloud architecture diagrams</li>
-<li>Infrastructure-as-Code experiments</li>
-</ul>
-
-</div>
-`
-})
-
+      <h3>🛠 Upcoming Hands-On Projects</h3>
+      <div class="project-card">
+        <h4>Static Portfolio Hosting</h4>
+        <p>Deploying this portfolio on GitHub Pages and AWS S3 with custom domain + HTTPS.</p>
+      </div>
+      <div class="project-card">
+        <h4>Infrastructure-as-Code</h4>
+        <p>Experimenting with AWS CloudFormation and Terraform to provision cloud resources.</p>
+      </div>
+      <div class="project-card">
+        <h4>Cloud Architecture Diagrams</h4>
+        <p>Documenting reference architectures using draw.io and AWS diagram tools.</p>
+      </div>
+    </div>
+    `
+  });
 }
 
-
-function openResume(){
-
-new WinBox({
-title:"AaronAltergottResume.txt",
-width:"90%",
-height:"90%",
-html:`
-<div class="windowContent resume">
-
-Aaron Altergott
-adaltergott@gmail.com | (909) 280-1882 | Redlands, California
+function openResume() {
+  new WinBox({
+    title: 'AaronAltergottResume.txt',
+    width: '88%',
+    height: '88%',
+    x: 'center',
+    y: 'center',
+    html: `
+    <div class="windowContent resume">Aaron Altergott
+adaltergott@gmail.com  |  (909) 280-1882  |  Redlands, California
 linkedin.com/in/aaronaltergott
+─────────────────────────────────────────────────────────────
 
-Experience
+EXPERIENCE
+─────────────────────────────────────────────────────────────
 
 CSR – Operations Specialist
-Southwest Self Storage — Nov 2024 – Present
+Southwest Self Storage  |  Nov 2024 – Present
 
-• Manage AP using 2-way matching and AR for 500+ tenants
-• Reduced overdue accounts by 15%
-• Reconcile financial reports and resolve billing discrepancies
-• Analyze revenue trends and occupancy metrics
+  • Manage AP using 2-way matching and AR for 500+ tenants
+  • Reduced overdue accounts by 15%
+  • Reconcile financial reports and resolve billing discrepancies
+  • Analyze revenue trends and occupancy metrics
+
 
 Intern
-The Advance Group — May 2023 – Jul 2023
+The Advance Group  |  May 2023 – Jul 2023
 
-• Evaluated organizations for partnership opportunities
-• Developed strategic collaboration proposals
-• Assisted NYC council campaign strategy
+  • Evaluated organizations for partnership opportunities
+  • Developed strategic collaboration proposals
+  • Assisted NYC council campaign strategy
+
 
 Valet Attendant
-Kar Kare Parking Systems — Feb 2021 – Apr 2023
+Kar Kare Parking Systems  |  Feb 2021 – Apr 2023
 
-• Managed high-volume transactions
-• Performed EOD reconciliation
+  • Managed high-volume transactions
+  • Performed EOD reconciliation
+
 
 English Instructor
-American Language Institute — Aug 2019 – Mar 2020
+American Language Institute  |  Aug 2019 – Mar 2020
 
-Education
+─────────────────────────────────────────────────────────────
+
+EDUCATION
+─────────────────────────────────────────────────────────────
 
 California State University Long Beach
 B.A. International Studies
 
-Skills
+─────────────────────────────────────────────────────────────
 
-Excel (PivotTables, XLOOKUP)
-Sitelink ERP / CRM
-IBM SPSS
-Google Workspace
-Microsoft 365
+SKILLS
+─────────────────────────────────────────────────────────────
 
-Accounts Payable / Receivable
-Financial reporting
-Journal reconciliation
-KPI analysis
+Technical          Excel (PivotTables, XLOOKUP)  |  Sitelink ERP/CRM
+                   IBM SPSS  |  Google Workspace  |  Microsoft 365
 
-Customer relations
-Strategic partnerships
-Market research
+Finance            Accounts Payable / Receivable  |  Financial Reporting
+                   Journal Reconciliation  |  KPI Analysis
 
-</div>
-`
-})
+Business           Customer Relations  |  Strategic Partnerships
+                   Market Research
 
+─────────────────────────────────────────────────────────────
+    </div>
+    `
+  });
 }
 
-
-function openContact(){
-
-new WinBox({
-title:"Contact",
-width:"400px",
-height:"300px",
-html:`
-<div class="windowContent">
-
-<h3>Contact</h3>
-
-Email
-<br>
-<a href="mailto:adaltergott@gmail.com">adaltergott@gmail.com</a>
-
-<br><br>
-
-Phone
-<br>
-(909) 280-1882
-
-<br><br>
-
-Location
-<br>
-Redlands, California
-
-</div>
-`
-})
-
+function openContact() {
+  new WinBox({
+    title: 'Contact',
+    width: '400px',
+    height: '280px',
+    x: 'center',
+    y: 'center',
+    html: `
+    <div class="windowContent">
+      <h2>Contact</h2>
+      <div class="contact-row">
+        <span class="contact-label">📧 Email</span>
+        <a href="mailto:adaltergott@gmail.com">adaltergott@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">📞 Phone</span>
+        <span>(909) 280-1882</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">🔗 LinkedIn</span>
+        <a href="https://linkedin.com/in/aaronaltergott" target="_blank">linkedin.com/in/aaronaltergott</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">📍 Location</span>
+        <span>Redlands, California</span>
+      </div>
+    </div>
+    `
+  });
 }
 
-
-function openLinkedIn(){
-
-window.open("https://www.linkedin.com/in/aaronaltergott","_blank")
-
+function openLinkedIn() {
+  window.open('https://www.linkedin.com/in/aaronaltergott', '_blank');
 }
 
 </script>
-
 </body>
 </html>
